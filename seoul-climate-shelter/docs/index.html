@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>서울 기후동행쉼터 공간분석</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="panel">
+    <header class="panel-head">
+      <h1>서울 기후동행쉼터 공간분석</h1>
+      <p>PyQGIS로 만든 두 분석을 브라우저에서 그대로 실행합니다.</p>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="분석 선택">
+      <button class="tab is-active" role="tab" id="tabbtn-count" aria-selected="true" aria-controls="tab-count" data-tab="count">① 구별 쉼터 개수</button>
+      <button class="tab" role="tab" id="tabbtn-nearest" aria-selected="false" aria-controls="tab-nearest" data-tab="nearest">② 가까운 쉼터 찾기</button>
+    </nav>
+
+    <div class="panel-body">
+      <!-- 분석 1 -->
+      <section id="tab-count" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-count">
+        <p class="hint">구 경계 안에 있는 기후동행쉼터 개수를 세어, 적은 구는 연하게 · 많은 구는 진하게 표시합니다. (전체 쉼터 기준)</p>
+        <div class="form-grid">
+          <label>단계 수
+            <select id="class-count">
+              <option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option>
+            </select>
+          </label>
+          <label>분류 방법
+            <select id="class-method">
+              <option value="jenks" selected>자연 구간 (Jenks)</option>
+              <option value="quantile">분위수</option>
+              <option value="equal">등간격</option>
+            </select>
+          </label>
+          <label>색상
+            <select id="class-color"></select>
+          </label>
+          <label class="check"><input type="checkbox" id="show-labels" checked /> 구 이름·개수 표시</label>
+        </div>
+        <div id="summary" class="summary"></div>
+        <h2>범례</h2>
+        <ul id="legend" class="legend"></ul>
+        <h2>구별 개수 <button class="link-btn" id="csv-count" type="button">CSV 저장</button></h2>
+        <ol id="rank-list" class="rank-list"></ol>
+      </section>
+
+      <!-- 분석 2 -->
+      <section id="tab-nearest" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-nearest" hidden>
+        <p class="hint">지도를 확대(14단계 이상)한 뒤 <b>도로를 클릭</b>하세요. 그 도로에서 가장 가까운 쉼터를 찾아 표시합니다.</p>
+        <h2>쉼터 브랜드</h2>
+        <div id="brand-list" class="brand-list"></div>
+        <div class="form-grid single">
+          <label>찾을 쉼터 개수
+            <select id="k-select"></select>
+          </label>
+        </div>
+        <div id="zoom-hint" class="status warn" hidden></div>
+        <div id="status" class="status" role="status"></div>
+        <div id="road-info" class="road-info" hidden></div>
+        <table id="result-table" class="result-table" hidden>
+          <thead><tr><th>순위</th><th>쉼터</th><th>브랜드</th><th class="num">거리(m)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="actions">
+          <button class="btn" id="csv-nearest" type="button" hidden>결과 CSV 저장</button>
+          <button class="btn ghost" id="clear-road" type="button" hidden>선택 해제</button>
+        </div>
+        <p class="note">거리는 도로선에서 쉼터까지의 <b>직선거리</b>(EPSG:5186, m)이며 도로망을 따라 걷는 거리가 아닙니다.</p>
+      </section>
+    </div>
+
+    <footer class="panel-foot">
+      <span>다운로드</span>
+      <a href="downloads/seoul_climate_shelter_plugin.zip">QGIS 플러그인(zip)</a>
+      <a href="downloads/analysis1_shelter_count_by_district.py">PyQGIS 분석 1</a>
+      <a href="downloads/analysis2_nearest5_shelters.py">PyQGIS 분석 2</a>
+    </footer>
+  </aside>
+
+  <main id="map" aria-label="지도"></main>
+</div>
+
+<div id="loading" class="loading"><div><strong>데이터를 불러오는 중…</strong><span id="loading-text">도로 데이터(약 10MB)가 가장 큽니다</span></div></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/geo.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
