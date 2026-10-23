@@ -1,0 +1,12 @@
+[general]
+name=Seoul Climate Shelter Tools
+qgisMinimumVersion=3.28
+description=서울 기후동행쉼터 공간분석 도구 (구별 쉼터 개수 단계구분도 / 선택한 도로 기준 가까운 쉼터 찾기, 브랜드 선택)
+version=1.1.0
+author=Student
+email=student@example.com
+about=Processing Toolbox에 "서울 기후동행쉼터" 그룹을 추가합니다. (1) 구별 기후동행쉼터 개수를 세어 단계구분도로 표시, (2) 선택한 도로 객체에서 가장 가까운 기후동행쉼터 N곳(브랜드 KT/CU/신한은행 선택 가능)을 새 레이어로 생성합니다.
+category=Analysis
+hasProcessingProvider=yes
+experimental=False
+deprecated=False
